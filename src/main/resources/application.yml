@@ -1,3 +1,6 @@
 spring:
   application:
     name: cutter
+  threads:
+    virtual:
+      enabled: false

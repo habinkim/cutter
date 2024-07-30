@@ -26,7 +26,7 @@ repositories {
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
-	set('springShellVersion', "3.3.1")
+	set('awssdkVersion', "2.25.45")
 }
 
 dependencies {
@@ -35,8 +35,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+
 	implementation 'org.apache.kafka:kafka-streams'
 	implementation 'org.springframework.kafka:spring-kafka'
+
+	implementation 'org.zalando:logbook-spring-boot-starter:3.9.0'
+	implementation 'ws.schild:jave-core:3.5.0'
+	implementation 'com.github.f4b6a3:ulid-creator:5.2.3'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1'
+
+	implementation 'software.amazon.awssdk:s3'
+	implementation 'software.amazon.awssdk:cloudfront'
 
 	compileOnly 'org.projectlombok:lombok'
 
@@ -63,7 +73,7 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.shell:spring-shell-dependencies:${springShellVersion}"
+		mavenBom "software.amazon.awssdk:bom:${awssdkVersion}"
 	}
 }
 
