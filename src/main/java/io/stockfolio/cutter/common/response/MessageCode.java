@@ -22,7 +22,8 @@ public enum MessageCode {
     ERROR(INTERNAL_SERVER_ERROR, "9999"),
     EXCEPTION_ILLEGAL_ARGUMENT(BAD_REQUEST, "9100"),
 
-    FILE_IS_NOT_VIDEO(BAD_REQUEST, "1001");
+    FILE_IS_NOT_VIDEO(BAD_REQUEST, "1001"),
+    STORAGE_ERROR(INTERNAL_SERVER_ERROR, "1002");
 
     private final HttpStatus httpStatus;
     private final String code;

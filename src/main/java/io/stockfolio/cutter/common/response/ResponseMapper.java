@@ -39,4 +39,13 @@ public class ResponseMapper {
                 .body(new ExceptionResponse(messageSourceUtil.getMessage(messageCode.getCode()), messageCode.getCode()));
     }
 
+    public ResponseEntity<ExceptionResponse> error(final MessageCode messageCode, final String additionalMessage) {
+        return ResponseEntity
+                .status(messageCode.getHttpStatus())
+                .body(new ExceptionResponse(
+                        messageSourceUtil.getMessage(messageCode.getCode()) + System.lineSeparator() + additionalMessage,
+                        messageCode.getCode())
+                );
+    }
+
 }
