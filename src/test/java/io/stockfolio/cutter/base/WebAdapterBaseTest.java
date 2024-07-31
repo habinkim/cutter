@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @AutoConfigureMockMvc
 @Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
-public abstract class ControllerBaseTest {
+public abstract class WebAdapterBaseTest {
 
     @Autowired
     protected RestDocumentationResultHandler restDocs;

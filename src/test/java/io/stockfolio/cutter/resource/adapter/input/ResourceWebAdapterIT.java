@@ -1,6 +1,6 @@
 package io.stockfolio.cutter.resource.adapter.input;
 
-import io.stockfolio.cutter.base.ControllerBaseTest;
+import io.stockfolio.cutter.base.WebAdapterBaseTest;
 import io.stockfolio.cutter.common.config.Uris;
 import io.stockfolio.cutter.common.response.MessageCode;
 import org.apache.commons.lang3.ArrayUtils;
@@ -23,7 +23,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-class ResourceWebAdapterIT extends ControllerBaseTest {
+class ResourceWebAdapterIT extends WebAdapterBaseTest {
 
     private static final String FILE_PATH = "file/file_example_MP4_1920_18MG.mp4";
     public static final String ORIGINAL_FILE_NAME = "file_example_MP4_1920_18MG.mp4";
