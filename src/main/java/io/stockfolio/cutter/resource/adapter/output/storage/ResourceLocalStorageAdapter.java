@@ -23,6 +23,14 @@ public class ResourceLocalStorageAdapter implements UploadFilePort {
 
     public ResourceLocalStorageAdapter(LocalStorageProperties properties) {
         this.rootLocation = Path.of(Constants.LOCAL_WORKING_DIRECTORY + properties.getLocation());
+
+        if(!Files.exists(this.rootLocation)) {
+            try {
+                Files.createDirectories(this.rootLocation);
+            } catch (IOException e) {
+                throw new StorageException("Could not initialize storage", e);
+            }
+        }
     }
 
     @Override
