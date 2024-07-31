@@ -19,11 +19,12 @@ public class ResourcePersistenceAdapter implements SaveResourcePort {
                 .extension(behavior.extension())
                 .size(behavior.size())
                 .originalFileName(behavior.originalFileName())
+                .duration(behavior.duration())
                 .build();
 
         ItemResourceJpaEntity savedEntity = itemResourceRepository.save(entity);
 
         return new SavedResource(savedEntity.getUlid(), savedEntity.getSavedPath(), savedEntity.getExtension(),
-                savedEntity.getSize(), savedEntity.getOriginalFileName());
+                savedEntity.getSize(), savedEntity.getOriginalFileName(), savedEntity.getDuration());
     }
 }

@@ -3,6 +3,7 @@ package io.stockfolio.cutter.resource.application.service;
 import io.stockfolio.cutter.common.config.ServicePolicy;
 import io.stockfolio.cutter.common.stereotype.UseCase;
 import io.stockfolio.cutter.resource.application.port.input.ResourceUploadUseCase;
+import io.stockfolio.cutter.resource.application.port.output.GetResourceDurationPort;
 import io.stockfolio.cutter.resource.application.port.output.SaveResourcePort;
 import io.stockfolio.cutter.resource.application.port.output.UploadFilePort;
 import io.stockfolio.cutter.resource.domain.behavior.SaveResource;
@@ -28,6 +29,7 @@ public class ResourceUploadService implements ResourceUploadUseCase {
 
     private final UploadFilePort uploadFilePort;
     private final SaveResourcePort saveResourcePort;
+    private final GetResourceDurationPort getResourceDurationPort;
 
     private final ServicePolicy servicePolicy;
 
@@ -40,13 +42,14 @@ public class ResourceUploadService implements ResourceUploadUseCase {
 
         return files.stream().map(file -> {
             String savedPath = uploadFilePort.uploadFile(file);
-            SaveResource behavior = toBehavior(file, savedPath);
+            Integer duration = getResourceDurationPort.getResourceDuration(savedPath);
+            SaveResource behavior = toBehavior(file, savedPath, duration);
             return saveResourcePort.save(behavior);
         }).toList();
     }
 
-    private static SaveResource toBehavior(MultipartFile file, String savedPath) {
-        return new SaveResource(savedPath, getExtension(file.getOriginalFilename()), file.getSize(), file.getOriginalFilename());
+    private static SaveResource toBehavior(final MultipartFile file, final String savedPath, final Integer duration) {
+        return new SaveResource(getExtension(file.getOriginalFilename()), file.getSize(), file.getOriginalFilename(), savedPath, duration);
     }
 
 }

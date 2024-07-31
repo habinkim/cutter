@@ -40,7 +40,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'org.zalando:logbook-spring-boot-starter:3.9.0'
-	implementation 'ws.schild:jave-core:3.5.0'
+	implementation 'net.bramp.ffmpeg:ffmpeg:0.8.0'
 	implementation 'com.github.f4b6a3:ulid-creator:5.2.3'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1'
 	implementation 'commons-io:commons-io:2.16.1'

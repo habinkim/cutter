@@ -38,17 +38,22 @@ public class ItemResourceJpaEntity extends BaseEntity {
     private String savedPath;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Comment("확장자")
     private String extension;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Comment("파일 크기(byte)")
     private Long size;
 
+    @NotNull
+    @Column(nullable = false, updatable = false)
+    @Comment("동영상의 길이")
+    private Integer duration;
+
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Comment("원본 파일명")
     private String originalFileName;
 
