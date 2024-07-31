@@ -44,7 +44,7 @@ class ResourceWebAdapterIT extends WebAdapterBaseTest {
         );
 
         mockMvc.perform(
-                        multipart(Uris.UPLOAD_V1)
+                        multipart(Uris.RESOURCE_UPLOAD_V1)
                                 .file(getFile())
                                 .accept(APPLICATION_JSON)
                                 .contentType("multipart/form-data")
