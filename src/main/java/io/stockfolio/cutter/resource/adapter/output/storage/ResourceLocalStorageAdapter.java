@@ -4,6 +4,7 @@ import io.stockfolio.cutter.common.config.LocalStorageProperties;
 import io.stockfolio.cutter.common.stereotype.StorageAdapter;
 import io.stockfolio.cutter.resource.application.port.output.UploadFilePort;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,13 +14,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+@Slf4j
 @StorageAdapter
 public class ResourceLocalStorageAdapter implements UploadFilePort {
+
+    private static final String LOCAL_WORKING_DIRECTORY = System.getProperty("user.dir");
 
     private final Path rootLocation;
 
     public ResourceLocalStorageAdapter(LocalStorageProperties properties) {
-        this.rootLocation = Path.of(properties.getLocation());
+        this.rootLocation = Path.of(LOCAL_WORKING_DIRECTORY + properties.getLocation());
     }
 
     @Override
@@ -33,7 +37,9 @@ public class ResourceLocalStorageAdapter implements UploadFilePort {
                 throw new StorageException("Cannot store file with relative path outside current directory " + filename);
 
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                Path resolvedPath = this.rootLocation.resolve(filename);
+                Files.copy(inputStream, resolvedPath, StandardCopyOption.REPLACE_EXISTING);
+                log.info("File {} uploaded at {} successfully", filename, resolvedPath);
             }
 
         } catch (IOException e) {

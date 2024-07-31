@@ -6,6 +6,8 @@ import io.stockfolio.cutter.common.stereotype.WebAdapter;
 import io.stockfolio.cutter.resource.application.port.input.ResourceUploadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +24,7 @@ public class ResourceWebAdapter {
 
     private final ResponseMapper responseMapper;
 
-    @GetMapping(value = Uris.UPLOAD_V1)
+    @PostMapping(value = Uris.UPLOAD_V1)
     public void upload(List<MultipartFile> files) {
         resourceUploadUseCase.upload(files);
 

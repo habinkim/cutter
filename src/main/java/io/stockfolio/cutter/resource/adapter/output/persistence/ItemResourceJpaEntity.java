@@ -5,7 +5,6 @@ import io.stockfolio.cutter.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +31,11 @@ public class ItemResourceJpaEntity extends BaseEntity {
     @Column(name = "ulid", nullable = false, updatable = false, unique = true)
     @Comment("ULID")
     private String ulid = UlidCreator.getMonotonicUlid().toString();
+
+//    @NotBlank
+//    @Column(name = "resource_path", nullable = false, updatable = false)
+//    @Comment("실제 저장 경로")
+//    private String resourcePath;
 
     @NotBlank
     @Column(nullable = false)
