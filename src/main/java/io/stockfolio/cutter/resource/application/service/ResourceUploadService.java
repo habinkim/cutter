@@ -6,6 +6,7 @@ import io.stockfolio.cutter.resource.application.port.input.ResourceUploadUseCas
 import io.stockfolio.cutter.resource.application.port.output.SaveResourcePort;
 import io.stockfolio.cutter.resource.application.port.output.UploadFilePort;
 import io.stockfolio.cutter.resource.domain.behavior.SaveResource;
+import io.stockfolio.cutter.resource.domain.value.SavedResource;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -32,16 +33,16 @@ public class ResourceUploadService implements ResourceUploadUseCase {
 
     @Transactional
     @Override
-    public void upload(@NotNull @NotEmpty final List<MultipartFile> files) {
+    public List<SavedResource> upload(@NotNull @NotEmpty final List<MultipartFile> files) {
         servicePolicy.isVideoFiles(files);
 
         log.info("file name : {}", files.getFirst().getName());
 
-        files.forEach(file -> {
+        return files.stream().map(file -> {
             String savedPath = uploadFilePort.uploadFile(file);
             SaveResource behavior = toBehavior(file, savedPath);
-            saveResourcePort.save(behavior);
-        });
+            return saveResourcePort.save(behavior);
+        }).toList();
     }
 
     private static SaveResource toBehavior(MultipartFile file, String savedPath) {

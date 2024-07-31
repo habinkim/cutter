@@ -1,9 +1,10 @@
 package io.stockfolio.cutter.resource.application.port.output;
 
 import io.stockfolio.cutter.resource.domain.behavior.SaveResource;
+import io.stockfolio.cutter.resource.domain.value.SavedResource;
 
 public interface SaveResourcePort {
 
-    void save(final SaveResource behavior);
+    SavedResource save(final SaveResource behavior);
 
 }

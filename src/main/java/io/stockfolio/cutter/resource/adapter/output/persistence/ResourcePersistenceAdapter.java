@@ -3,6 +3,7 @@ package io.stockfolio.cutter.resource.adapter.output.persistence;
 import io.stockfolio.cutter.common.stereotype.PersistenceAdapter;
 import io.stockfolio.cutter.resource.application.port.output.SaveResourcePort;
 import io.stockfolio.cutter.resource.domain.behavior.SaveResource;
+import io.stockfolio.cutter.resource.domain.value.SavedResource;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
@@ -12,7 +13,7 @@ public class ResourcePersistenceAdapter implements SaveResourcePort {
     private final ItemResourceRepository itemResourceRepository;
 
     @Override
-    public void save(final SaveResource behavior) {
+    public SavedResource save(final SaveResource behavior) {
         ItemResourceJpaEntity entity = ItemResourceJpaEntity.builder()
                 .savedPath(behavior.savedPath())
                 .extension(behavior.extension())
@@ -20,6 +21,9 @@ public class ResourcePersistenceAdapter implements SaveResourcePort {
                 .originalFileName(behavior.originalFileName())
                 .build();
 
-        itemResourceRepository.save(entity);
+        ItemResourceJpaEntity savedEntity = itemResourceRepository.save(entity);
+
+        return new SavedResource(savedEntity.getUlid(), savedEntity.getSavedPath(), savedEntity.getExtension(),
+                savedEntity.getSize(), savedEntity.getOriginalFileName());
     }
 }

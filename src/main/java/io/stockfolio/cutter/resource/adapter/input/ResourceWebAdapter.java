@@ -1,10 +1,12 @@
 package io.stockfolio.cutter.resource.adapter.input;
 
 import io.stockfolio.cutter.common.config.Uris;
+import io.stockfolio.cutter.common.response.MessageCode;
 import io.stockfolio.cutter.common.response.Response;
 import io.stockfolio.cutter.common.response.ResponseMapper;
 import io.stockfolio.cutter.common.stereotype.WebAdapter;
 import io.stockfolio.cutter.resource.application.port.input.ResourceUploadUseCase;
+import io.stockfolio.cutter.resource.domain.value.SavedResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +26,11 @@ public class ResourceWebAdapter {
     private final ResponseMapper responseMapper;
 
     @PostMapping(value = Uris.UPLOAD_V1)
-    public ResponseEntity<Response<?>> upload(List<MultipartFile> files) {
-        resourceUploadUseCase.upload(files);
+    public ResponseEntity<Response<UploadResponse>> upload(List<MultipartFile> files) {
+        List<SavedResource> savedResources = resourceUploadUseCase.upload(files);
+        UploadResponse response = new UploadResponse(savedResources);
 
-        return responseMapper.ok();
+        return responseMapper.ok(MessageCode.SUCCESS, response);
     }
 
 }
