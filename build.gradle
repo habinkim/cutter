@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.2'
 	id 'io.spring.dependency-management' version '1.1.6'
-	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'org.asciidoctor.jvm.convert' version '4.0.2'
 }
 
 group = 'io.stockfolio'
@@ -15,6 +15,7 @@ java {
 }
 
 configurations {
+	asciidoctorExt
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -25,7 +26,9 @@ repositories {
 }
 
 ext {
+	set('generated', file("src/main/generated"))
 	set('snippetsDir', file("build/generated-snippets"))
+	set('docsDir', "src/main/resources/static/docs")
 	set('awssdkVersion', "2.25.45")
 }
 
@@ -56,30 +59,70 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.shell:spring-shell-starter-test'
+	testImplementation 'org.apache.commons:commons-lang3:3.15.0'
+
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation 'org.testcontainers:kafka'
 	testImplementation 'org.testcontainers:postgresql'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+sourceSets {
+	main.java.srcDirs += [generated]
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+	options.compilerArgs << '-parameters'
+	options.annotationProcessorGeneratedSourcesDirectory(file(generated))
+}
+
+compileJava.doFirst {
+	delete file(generated)
+}
+
+asciidoctor {
+	dependsOn test
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+
+	sources {
+		include("**/index.adoc")
+	}
+
+	baseDirFollowsSourceFile()
+
+	doFirst {
+		delete {
+			file("${docsDir}")
+		}
+	}
+
+	doLast {
+		copy {
+			from(file("build/docs/asciidoc"))
+			into(file("${docsDir}"))
+		}
+	}
+}
+
+jar {
+	enabled = false
+}
+
+bootJar {
+	dependsOn 'asciidoctor'
+	from("${docsDir}") {
+		into "static/docs"
+	}
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "software.amazon.awssdk:bom:${awssdkVersion}"
 	}
-}
-
-tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
 }

@@ -1,0 +1,9 @@
+[[Account-API]]
+== Resource API
+
+=== 파일 업로드 API
+
+==== 성공
+
+operation::upload-success[snippets='curl-request,http-response,response-fields']
+

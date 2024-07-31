@@ -10,6 +10,8 @@ import io.stockfolio.cutter.resource.domain.value.SavedResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class ResourceWebAdapter {
     private final ResponseMapper responseMapper;
 
     @PostMapping(value = Uris.UPLOAD_V1)
-    public ResponseEntity<Response<UploadResponse>> upload(List<MultipartFile> files) {
+    public ResponseEntity<Response<UploadResponse>> upload(@RequestParam(name = "files") List<MultipartFile> files) {
         List<SavedResource> savedResources = resourceUploadUseCase.upload(files);
         UploadResponse response = new UploadResponse(savedResources);
 
