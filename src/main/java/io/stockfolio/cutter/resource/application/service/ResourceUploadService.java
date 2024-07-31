@@ -3,7 +3,7 @@ package io.stockfolio.cutter.resource.application.service;
 import io.stockfolio.cutter.common.config.ServicePolicy;
 import io.stockfolio.cutter.common.stereotype.UseCase;
 import io.stockfolio.cutter.resource.application.port.input.ResourceUploadUseCase;
-import io.stockfolio.cutter.resource.application.port.output.GetResourceDurationPort;
+import io.stockfolio.cutter.resource.application.port.output.GetVideoDurationPort;
 import io.stockfolio.cutter.resource.application.port.output.SaveResourcePort;
 import io.stockfolio.cutter.resource.application.port.output.UploadFilePort;
 import io.stockfolio.cutter.resource.domain.behavior.SaveResource;
@@ -29,7 +29,7 @@ public class ResourceUploadService implements ResourceUploadUseCase {
 
     private final UploadFilePort uploadFilePort;
     private final SaveResourcePort saveResourcePort;
-    private final GetResourceDurationPort getResourceDurationPort;
+    private final GetVideoDurationPort getVideoDurationPort;
 
     private final ServicePolicy servicePolicy;
 
@@ -42,7 +42,7 @@ public class ResourceUploadService implements ResourceUploadUseCase {
 
         return files.stream().map(file -> {
             String savedPath = uploadFilePort.uploadFile(file);
-            Integer duration = getResourceDurationPort.getResourceDuration(savedPath);
+            Integer duration = getVideoDurationPort.getVideoDuration(savedPath);
             SaveResource behavior = toBehavior(file, savedPath, duration);
             return saveResourcePort.save(behavior);
         }).toList();

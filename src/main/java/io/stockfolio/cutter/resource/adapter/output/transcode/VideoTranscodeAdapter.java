@@ -1,7 +1,7 @@
 package io.stockfolio.cutter.resource.adapter.output.transcode;
 
 import io.stockfolio.cutter.common.stereotype.TranscodeAdapter;
-import io.stockfolio.cutter.resource.application.port.output.GetResourceDurationPort;
+import io.stockfolio.cutter.resource.application.port.output.GetVideoDurationPort;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFprobe;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @TranscodeAdapter
 @RequiredArgsConstructor
-public class ResourceTranscodeAdapter implements GetResourceDurationPort {
+public class VideoTranscodeAdapter implements GetVideoDurationPort {
 
     private final FFprobe ffprobe;
 
@@ -20,7 +20,7 @@ public class ResourceTranscodeAdapter implements GetResourceDurationPort {
      * @return resourceDuration (seconds)
      */
     @Override
-    public Integer getResourceDuration(@NotBlank final String savedPath) {
+    public Integer getVideoDuration(@NotBlank final String savedPath) {
         FFmpegProbeResult probeResult;
 
         try {

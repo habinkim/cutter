@@ -12,6 +12,11 @@ import io.stockfolio.cutter.common.response.BasePayload;
  * @param originalFileName 원본 파일 이름
  * @param duration         동영상 길이
  */
-public record SavedResource(String ulid, String savedPath, String extension, Long size,
-                            String originalFileName, Integer duration) implements BasePayload {
+public record SavedResource(
+        String ulid,
+        String savedPath,
+        String extension,
+        Long size,
+        String originalFileName,
+        Integer duration) implements BasePayload {
 }

@@ -40,7 +40,8 @@ class ResourceWebAdapterIT extends WebAdapterBaseTest {
                 fieldWithPath("data.saved_resources[].saved_path").description("업로드 파일 저장 경로").attributes(constraint("NOT NULL")),
                 fieldWithPath("data.saved_resources[].extension").description("업로드 파일 확장자").attributes(constraint("NOT NULL")),
                 fieldWithPath("data.saved_resources[].size").description("업로드 파일 크기 (bytes)").attributes(constraint("NOT NULL")),
-                fieldWithPath("data.saved_resources[].original_file_name").description("업로드 원본 파일명").attributes(constraint("NOT NULL"))
+                fieldWithPath("data.saved_resources[].original_file_name").description("업로드 원본 파일명").attributes(constraint("NOT NULL")),
+                fieldWithPath("data.saved_resources[].duration").description("업로드 파일 영상 길이 (ms)").attributes(constraint("NOT NULL"))
         );
 
         mockMvc.perform(
@@ -62,6 +63,7 @@ class ResourceWebAdapterIT extends WebAdapterBaseTest {
                         jsonPath("$.data.saved_resources[0].original_file_name", notNullValue()),
                         jsonPath("$.data.saved_resources[0].original_file_name", is(ORIGINAL_FILE_NAME))
                 )
+                .andExpect(jsonPath("$.data.saved_resources[0].duration", notNullValue()))
                 .andDo(restDocs.document(
                         responseFields(responseDescriptors)
                 ));

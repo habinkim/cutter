@@ -30,6 +30,7 @@ ext {
 	set('snippetsDir', file("build/generated-snippets"))
 	set('docsDir', "src/main/resources/static/docs")
 	set('awssdkVersion', "2.25.45")
+	set('mapstructVersion', "1.5.5.Final")
 }
 
 dependencies {
@@ -44,6 +45,8 @@ dependencies {
 	implementation 'com.github.f4b6a3:ulid-creator:5.2.3'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1'
 	implementation 'commons-io:commons-io:2.16.1'
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	implementation "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 	implementation 'software.amazon.awssdk:s3'
 	implementation 'software.amazon.awssdk:cloudfront'
@@ -55,9 +58,12 @@ dependencies {
 
 	runtimeOnly 'org.postgresql:postgresql'
 
-
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor(
+			'org.springframework.boot:spring-boot-configuration-processor',
+			'org.projectlombok:lombok',
+			"org.mapstruct:mapstruct-processor:${mapstructVersion}",
+			'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	)
 
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
