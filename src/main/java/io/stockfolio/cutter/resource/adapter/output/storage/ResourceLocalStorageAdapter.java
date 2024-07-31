@@ -1,6 +1,7 @@
 package io.stockfolio.cutter.resource.adapter.output.storage;
 
 import io.stockfolio.cutter.common.config.LocalStorageProperties;
+import io.stockfolio.cutter.common.constant.Constants;
 import io.stockfolio.cutter.common.stereotype.StorageAdapter;
 import io.stockfolio.cutter.resource.application.port.output.UploadFilePort;
 import jakarta.validation.constraints.NotNull;
@@ -18,16 +19,14 @@ import java.nio.file.StandardCopyOption;
 @StorageAdapter
 public class ResourceLocalStorageAdapter implements UploadFilePort {
 
-    private static final String LOCAL_WORKING_DIRECTORY = System.getProperty("user.dir");
-
     private final Path rootLocation;
 
     public ResourceLocalStorageAdapter(LocalStorageProperties properties) {
-        this.rootLocation = Path.of(LOCAL_WORKING_DIRECTORY + properties.getLocation());
+        this.rootLocation = Path.of(Constants.LOCAL_WORKING_DIRECTORY + properties.getLocation());
     }
 
     @Override
-    public void uploadFile(@NotNull MultipartFile file) {
+    public String uploadFile(@NotNull final MultipartFile file) {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
@@ -37,9 +36,12 @@ public class ResourceLocalStorageAdapter implements UploadFilePort {
                 throw new StorageException("Cannot store file with relative path outside current directory " + filename);
 
             try (InputStream inputStream = file.getInputStream()) {
-                Path resolvedPath = this.rootLocation.resolve(filename);
+                String generatedFileName = generateFileName(file);
+                Path resolvedPath = this.rootLocation.resolve(generatedFileName);
                 Files.copy(inputStream, resolvedPath, StandardCopyOption.REPLACE_EXISTING);
                 log.info("File {} uploaded at {} successfully", filename, resolvedPath);
+
+                return resolvedPath.toString();
             }
 
         } catch (IOException e) {

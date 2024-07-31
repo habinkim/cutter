@@ -14,6 +14,7 @@ public class ResourcePersistenceAdapter implements SaveResourcePort {
     @Override
     public void save(final SaveResource behavior) {
         ItemResourceJpaEntity entity = ItemResourceJpaEntity.builder()
+                .savedPath(behavior.savedPath())
                 .extension(behavior.extension())
                 .size(behavior.size())
                 .originalFileName(behavior.originalFileName())

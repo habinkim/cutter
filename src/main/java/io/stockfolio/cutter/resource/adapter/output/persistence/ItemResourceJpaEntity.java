@@ -32,10 +32,10 @@ public class ItemResourceJpaEntity extends BaseEntity {
     @Comment("ULID")
     private String ulid = UlidCreator.getMonotonicUlid().toString();
 
-//    @NotBlank
-//    @Column(name = "resource_path", nullable = false, updatable = false)
-//    @Comment("실제 저장 경로")
-//    private String resourcePath;
+    @NotBlank
+    @Column(name = "saved_path", nullable = false, updatable = false)
+    @Comment("실제 저장 경로")
+    private String savedPath;
 
     @NotBlank
     @Column(nullable = false)

@@ -10,11 +10,12 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static org.apache.commons.io.FilenameUtils.getExtension;
 
 /**
  * 파일 업로드 비즈니스 로직
@@ -32,20 +33,19 @@ public class ResourceUploadService implements ResourceUploadUseCase {
     @Transactional
     @Override
     public void upload(@NotNull @NotEmpty final List<MultipartFile> files) {
-//        servicePolicy.isVideoFiles(files);
+        servicePolicy.isVideoFiles(files);
 
         log.info("file name : {}", files.getFirst().getName());
 
-        files.forEach(uploadFilePort::uploadFile);
-        toBehavior(files).forEach(saveResourcePort::save);
-
+        files.forEach(file -> {
+            String savedPath = uploadFilePort.uploadFile(file);
+            SaveResource behavior = toBehavior(file, savedPath);
+            saveResourcePort.save(behavior);
+        });
     }
 
-    public static List<SaveResource> toBehavior(@NotNull @NotEmpty final List<MultipartFile> files) {
-        return files.stream()
-                .map(file -> new SaveResource(FilenameUtils.getExtension(file.getOriginalFilename()), file.getSize(),
-                        file.getContentType(), file.getOriginalFilename()))
-                .toList();
+    private static SaveResource toBehavior(MultipartFile file, String savedPath) {
+        return new SaveResource(savedPath, getExtension(file.getOriginalFilename()), file.getSize(), file.getOriginalFilename());
     }
 
 }

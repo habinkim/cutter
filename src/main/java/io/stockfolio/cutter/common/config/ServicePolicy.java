@@ -34,14 +34,4 @@ public class ServicePolicy {
             throw new CommonApplicationException(MessageCode.FILE_IS_NOT_VIDEO);
     }
 
-    public String createResourcePath(@NotNull final String rootPath, @NotNull final MultipartFile file) {
-        String generatedFileName = UUID.randomUUID().toString();
-        log.info("generated file name is {}", generatedFileName);
-
-        String extractedExtension = FilenameUtils.getExtension(file.getOriginalFilename());
-        assert extractedExtension != null;
-
-        return rootPath + "/" + generatedFileName + "." + extractedExtension;
-    }
-
 }

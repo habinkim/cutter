@@ -2,6 +2,8 @@ package io.stockfolio.cutter.common.constant;
 
 public final class Constants {
 
+    public static final String LOCAL_WORKING_DIRECTORY = System.getProperty("user.dir");
+
     public static final Object NULL_OBJECT = null;
 
     public static final Number NULL_NUMBER = null;
