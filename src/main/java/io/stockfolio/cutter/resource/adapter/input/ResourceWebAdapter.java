@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * Input Web Adapter for Resource
+ */
 @WebAdapter
 @RequiredArgsConstructor
 public class ResourceWebAdapter {
@@ -20,9 +23,8 @@ public class ResourceWebAdapter {
     private final ResponseMapper responseMapper;
 
     @GetMapping(value = Uris.UPLOAD_V1)
-    public void upload(@RequestParam("files") List<MultipartFile> files) {
-
-
+    public void upload(List<MultipartFile> files) {
+        resourceUploadUseCase.upload(files);
 
         responseMapper.ok();
     }

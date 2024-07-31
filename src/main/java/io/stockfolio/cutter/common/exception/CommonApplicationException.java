@@ -25,7 +25,7 @@ public class CommonApplicationException extends RuntimeException implements Supp
     public static final CommonApplicationException ERROR = new CommonApplicationException(MessageCode.ERROR);
     public static final CommonApplicationException EXCEPTION_ILLEGAL_ARGUMENT = new CommonApplicationException(MessageCode.EXCEPTION_ILLEGAL_ARGUMENT);
 
-
+    public static final CommonApplicationException FILE_IS_NOT_VIDEO = new CommonApplicationException(MessageCode.FILE_IS_NOT_VIDEO);
 
 
     @Override

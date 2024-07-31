@@ -4,3 +4,11 @@ spring:
   threads:
     virtual:
       enabled: false
+  servlet:
+    multipart:
+      max-file-size: 5GB
+      max-request-size: 20GB
+
+
+local-storage:
+  location: /files

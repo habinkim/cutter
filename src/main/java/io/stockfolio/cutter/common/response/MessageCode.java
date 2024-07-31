@@ -20,7 +20,9 @@ public enum MessageCode {
     NOT_OWNER(UNAUTHORIZED, "9997"),
     NOT_FOUND_DATA(BAD_REQUEST, "9998"),
     ERROR(INTERNAL_SERVER_ERROR, "9999"),
-    EXCEPTION_ILLEGAL_ARGUMENT(BAD_REQUEST, "9100");
+    EXCEPTION_ILLEGAL_ARGUMENT(BAD_REQUEST, "9100"),
+
+    FILE_IS_NOT_VIDEO(BAD_REQUEST, "1001");
 
     private final HttpStatus httpStatus;
     private final String code;
