@@ -64,9 +64,7 @@ class ResourceWebAdapterIT extends WebAdapterBaseTest {
                         jsonPath("$.data.saved_resources[0].original_file_name", is(ORIGINAL_FILE_NAME))
                 )
                 .andExpect(jsonPath("$.data.saved_resources[0].duration", notNullValue()))
-                .andDo(restDocs.document(
-                        responseFields(responseDescriptors)
-                ));
+                .andDo(restDocs.document(responseFields(responseDescriptors)));
 
     }
 

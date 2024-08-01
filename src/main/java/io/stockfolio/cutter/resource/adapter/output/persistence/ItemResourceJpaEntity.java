@@ -49,7 +49,7 @@ public class ItemResourceJpaEntity extends BaseEntity {
 
     @NotNull
     @Column(nullable = false, updatable = false)
-    @Comment("동영상의 길이")
+    @Comment("동영상의 길이 (ms)")
     private Integer duration;
 
     @NotBlank
